@@ -17,7 +17,10 @@
         description = "Deep Learning (npfl138) flake template.";
         welcomeText = ''
           # npfl138 flake template
-          Contains a single dev shell
+          ## Important
+          Make sure the flake is placed in the `/labs` directory of the npfl138 repository (https://github.com/ufal/npfl138). The directory should also contain `pyproject.toml`.
+          ## Usage
+          Type `nix develop` to enter the dev shell with the required dependencies.
         '';
       };
       devShells = forAllSystems (
