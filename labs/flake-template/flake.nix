@@ -12,14 +12,6 @@
       forAllSystems = lib.genAttrs lib.systems.flakeExposed;
     in
     {
-      templates.default = {
-        path = ./flake-template;
-        description = "Deep Learning (npfl138) flake template.";
-        welcomeText = ''
-          # npfl138 flake template
-          Contains a single dev shell
-        '';
-      };
       devShells = forAllSystems (
         system:
         let
