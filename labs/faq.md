@@ -14,15 +14,17 @@
   You can install all required packages to central user packages repository using
   `python3 -m pip install --user --no-cache-dir --extra-index-url=https://download.pytorch.org/whl/cu128 npfl138`.
 
-  On Linux and Windows, the above command installs CUDA 12.8 PyTorch build, but you can change `cu128` to:
+  On Linux and Windows, the above command installs CUDA 12.8 PyTorch build (which you would get
+  also without specifying the `--extra-index-url` option), but you can change `cu128` to:
   - `cpu` to get CPU-only (smaller) version,
-  - `cu124` to get CUDA 12.4 build,
+  - `cu126` to get CUDA 12.6 build,
   - `rocm7.1` to get AMD ROCm 7.1 build (Linux only).
 
-  On macOS, the `--extra-index-url` has no effect and the Metal support is
-  installed in any case.
+  On macOS, the above `--extra-index-url` values have no practical effect, the
+  Metal support is installed in all cases.
 
   **To update the `npfl138` package later, use `python3 -m pip install --user --upgrade npfl138`.**
+
 - _Installing to a virtual environment_
 
   Python supports virtual environments, which are directories containing
@@ -31,13 +33,27 @@
   `VENV_DIR/bin/pip install --no-cache-dir --extra-index-url=https://download.pytorch.org/whl/cu128 npfl138`.
   (or `VENV_DIR/Scripts/pip` on Windows).
 
-  Again, apart from the CUDA 12.8 build, you can change `cu128` on Linux and
-  Windows to:
+  Again, apart from the CUDA 12.8 build (which you would get also without specifying
+  the `--extra-index-url` option), you can change `cu128` on Linux and Windows to:
   - `cpu` to get CPU-only (smaller) version,
-  - `cu124` to get CUDA 12.4 build,
+  - `cu126` to get CUDA 12.6 build,
   - `rocm7.1` to get AMD ROCm 7.1 build (Linux only).
 
   **To update the `npfl138` package later, use `VENV_DIR/bin/pip install --upgrade npfl138`.**
+
+- _Installing to a virtual environment with `uv`_
+
+  If you would like to use `uv pip` to install the required packages to
+  a virtual environment and you use `--extra-index-url` (i.e., you want
+  a different build than the default CUDA 12.8 on Linux or Windows),
+  you need to add **`--index-strategy unsafe-best-match`**
+  to the above command for `uv` to resolve `torchmetrics` correctly.
+
+  If you prefer to use `uv add` instead and again want to use a non-default
+  build, first manually add `torch~=2.10.0`, `torchaudio~=2.10.0`,
+  and `torchvision~=0.25.0` with a specified `tool.uv.index` according to
+  https://docs.astral.sh/uv/guides/integration/pytorch/#using-a-pytorch-index.
+  Once you have PyTorch installed, you can then run `uv add npfl138`.
 
 - _**Windows** installation_
 
@@ -115,7 +131,7 @@
   ```
   This creates a new remote `course_repo` and a clone of the `master` branch
   from it; however, `git pull` and `git push` in this branch will operate
-  on the repository your cloned originally.
+  on the repository you cloned originally.
 
   To update your branch with the changes from the course repository, run
   ```
