@@ -60,7 +60,7 @@ class Model(npfl138.TrainableModule):
         #   and then concatenate the one-hot encodings of the window characters.
         # - Alternatively, you can experiment with `torch.nn.Embedding`s (an
         #   efficient implementation of one-hot encoding followed by a Dense layer)
-        #   and flattening afterwards, or suitably using `torch.nn.EmbeddingBag`.
+        #   and flattening afterwards.
         ...
 
     def forward(self, windows: torch.Tensor) -> torch.Tensor:
@@ -74,7 +74,7 @@ def main(args: argparse.Namespace) -> None:
     npfl138.global_keras_initializers()
 
     # Create a suitable logdir for the logs and the predictions.
-    args.logdir = npfl138.format_logdir("logs/{file-}{timestamp}{-config}", **vars(args))
+    logdir = npfl138.format_logdir("logs/{file-}{timestamp}{-config}", **vars(args))
 
     # Load the data and create windows of integral character indices and integral labels.
     uppercase_data = UppercaseData(args.window, args.alphabet_size)
@@ -89,9 +89,9 @@ def main(args: argparse.Namespace) -> None:
     model = ...
 
     # TODO: Generate correctly capitalized test set and write the result to `predictions_file`,
-    # which is by default `uppercase_test.txt` in the `args.logdir` directory).
-    os.makedirs(args.logdir, exist_ok=True)
-    with open(os.path.join(args.logdir, "uppercase_test.txt"), "w", encoding="utf-8") as predictions_file:
+    # which is by default `uppercase_test.txt` in the `logdir` directory).
+    os.makedirs(logdir, exist_ok=True)
+    with open(os.path.join(logdir, "uppercase_test.txt"), "w", encoding="utf-8") as predictions_file:
         # We start by generating the network test set predictions; if you modified the `test` dataloader
         # or your model does not process the dataset windows, you might need to adjust the following line.
         predictions = model.predict(test, data_with_labels=True)
